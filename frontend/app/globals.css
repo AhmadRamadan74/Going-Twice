@@ -1,0 +1,201 @@
+@import "tailwindcss";
+
+@theme {
+  /* ---- Colour tokens (GT Brand Identity) ---- */
+  --color-ink: #361f1c; /* dark brown — typography & key elements */
+  --color-ink-deep: #241412; /* deeper brown for hero / dark surfaces */
+  --color-muted: #5e4b3b; /* warm taupe — secondary body text */
+  --color-wine: #754253; /* wine accent */
+  --color-sage: #8e9680; /* sage — secondary brand / accents */
+  --color-olive: #696758; /* olive green accent */
+  --color-cream: #e6d8c1; /* warm beige — brand primary surface */
+  --color-parchment: #efe6d4; /* page canvas (warm beige, softened) */
+  --color-sage-mist: #e3e6dc; /* sage + cream blend — secondary background */
+  --color-sand: #e8dfcf; /* image placeholder / tile background */
+  --color-linen: #e6d8c1; /* warm beige backdrop */
+  --color-line: #d4c7b0; /* hairline borders */
+  --color-dust: #859493; /* dusty blue accent */
+  --color-mist: #bebebe; /* light gray */
+
+  /* ---- Type ---- */
+  /* Site-wide: Cormorant Garamond (display / headings) + Inter (UI / body). */
+  --font-display: var(--font-cormorant), "Cormorant Garamond", serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    /* Warm beige base + sage as the second atmospheric color */
+    background-color: var(--color-parchment);
+    background-image:
+      radial-gradient(
+        ellipse 110% 70% at 12% -10%,
+        color-mix(in srgb, var(--color-sage) 18%, transparent),
+        transparent 58%
+      ),
+      radial-gradient(
+        ellipse 90% 60% at 100% 8%,
+        color-mix(in srgb, var(--color-cream) 55%, transparent),
+        transparent 52%
+      ),
+      radial-gradient(
+        ellipse 80% 55% at 85% 100%,
+        color-mix(in srgb, var(--color-sage) 14%, transparent),
+        transparent 55%
+      ),
+      linear-gradient(
+        165deg,
+        var(--color-parchment) 0%,
+        color-mix(in srgb, var(--color-sage-mist) 40%, var(--color-parchment))
+          48%,
+        var(--color-sage-mist) 100%
+      );
+    background-attachment: fixed;
+  }
+
+  @media (max-width: 1023px) {
+    body {
+      background-attachment: scroll;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body {
+      background-image: linear-gradient(
+        165deg,
+        var(--color-parchment) 0%,
+        var(--color-sage-mist) 100%
+      );
+      background-attachment: scroll;
+    }
+  }
+}
+
+@utility eyebrow {
+  font-size: 11px;
+  line-height: 16.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1320px;
+  padding-inline: 16px;
+
+  @media (min-width: 640px) {
+    padding-inline: 24px;
+  }
+
+  @media (min-width: 1024px) {
+    padding-inline: 32px;
+  }
+}
+
+/* ---- Scroll / entrance reveals ---- */
+.reveal {
+  opacity: 0;
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-up {
+  transform: translate3d(0, 32px, 0);
+}
+
+.reveal-fade {
+  transform: none;
+}
+
+.reveal-left {
+  transform: translate3d(-28px, 0, 0);
+}
+
+.reveal-scale {
+  transform: scale(0.96);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Hero load animations ---- */
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-image-in {
+  from {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hero-image-animate {
+  animation: hero-image-in 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-animate {
+  animation: hero-fade-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-animate-delay-1 {
+  animation-delay: 0.12s;
+}
+
+.hero-animate-delay-2 {
+  animation-delay: 0.24s;
+}
+
+.hero-animate-delay-3 {
+  animation-delay: 0.38s;
+}
+
+.hero-animate-delay-4 {
+  animation-delay: 0.52s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal,
+  .reveal-up,
+  .reveal-fade,
+  .reveal-left,
+  .reveal-scale {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .hero-image-animate,
+  .hero-animate {
+    animation: none;
+  }
+}

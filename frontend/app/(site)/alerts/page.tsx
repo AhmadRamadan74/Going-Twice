@@ -1,0 +1,10 @@
+import type { Metadata } from "next";
+import AlertsView from "@/components/AlertsView";
+
+export const metadata: Metadata = {
+  title: "Alerts — Going Twice",
+};
+
+export default function AlertsPage() {
+  return <AlertsView />;
+}
